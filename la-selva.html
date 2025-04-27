@@ -15,8 +15,9 @@
 
         <a-assets>
           <a-asset-item id="arbol" src="3dassets/Arbol1.glb"></a-asset-item>
-          <audio id="trueno" src="assets/trueno.mp3"></audio>
-          
+          <audio id="trueno" src="sounds/trueno.mp3"></audio>
+          <audio id="lluvia" src="sounds2/lluvia.mp3"></audio>
+
         </a-assets>
 
 
@@ -27,6 +28,7 @@
       
 
         <a-sky id="cielo" color="#000C3F"></a-sky>
+        <a-sound id="sonido-lluvia" src="#lluvia" autoplay="true" loop="true" volume="0.5" preload="auto"></a-sound>
         <a-sound id="sonido-trueno" src="#trueno" volume="1" position="0 5 0"></a-sound>
       
         <script>
