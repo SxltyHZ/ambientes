@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>La Selva</title>
     <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
     <script src="https://unpkg.com/@c-frame/aframe-particle-system-component@1.2.x/dist/aframe-particle-system-component.min.js"></script>
 
@@ -11,52 +11,102 @@
 </head>
 <body>
 
-    <a-scene fog="type: exponential; color: #0A6948; density: 0.0035"> 
+    <a-scene fog="type: exponential; color: #0A6948; density: 0.005"> 
 
+ 
         <a-assets>
           <a-asset-item id="arbol" src="3dassets/Arbol1.glb"></a-asset-item>
           <audio id="trueno" src="sounds/trueno.mp3"></audio>
           <audio id="lluvia" src="sounds2/lluvia.mp3"></audio>
-
         </a-assets>
-
+      
 
         <a-entity 
-        particle-system="preset: rain; particleCount: 8000; size: 0.2; color: #0D6157; velocityValue: 0 -50 0; velocitySpread: 0 0 0; opacity: 0.5;"
-        position="0 15 0">
-      </a-entity>
+          particle-system="preset: rain; particleCount: 40000; size: 0.3; color: #0D6157; velocityValue: 0 -500 0; velocitySpread: 600 0 600; opacity: .5;"
+          position="0 5 0">
+        </a-entity>
       
 
         <a-sky id="cielo" color="#000C3F"></a-sky>
-        <a-sound id="sonido-lluvia" src="#lluvia" autoplay="true" loop="true" volume="0.5" preload="auto"></a-sound>
-        <a-sound id="sonido-trueno" src="#trueno" volume="1" position="0 5 0"></a-sound>
       
-        <script>
-            setInterval(() => {
-              const cielo = document.querySelector('#cielo');
-              const trueno = document.querySelector('#sonido-trueno');
-          
 
-              cielo.setAttribute('color', '#ffffff');
-              setTimeout(() => {
-                cielo.setAttribute('color', '#000C3F');
-              }, 100); 
-          
-
-              setTimeout(() => {
-                trueno.components.sound.playSound();
-              }, 800); 
-            }, 7000); 
-          </script>
-          
+        <a-sound 
+          id="sonido-lluvia" 
+          src="#lluvia" 
+          autoplay="true" 
+          loop="true" 
+          volume="0.8" 
+          preload="auto" 
+          positional="false">
+        </a-sound>
       
+        <a-sound 
+          id="sonido-trueno" 
+          src="#trueno" 
+          volume="1" 
+          position="0 5 0" 
+          positional="true">
+        </a-sound>
+      
+
         <a-light type="ambient" color="#03512D" intensity="1.5"></a-light>
       
+
         <a-plane position="0 0 0" rotation="-90 0 0" width="10000" height="10000" color="#124228"></a-plane>
       
-        <a-entity id="bosque"></a-entity>
+
+        <a-entity id="bosque" generar-bosque></a-entity>
       
-        <a-entity gltf-model="#arbol" position="0 -5 -5" scale="1.5 1.5 1.5"></a-entity>
+        
+        <a-entity gltf-model="#arbol" position="0 -10 -5" scale="1.5 1.5 1.5"></a-entity>
+
+        <script>
+          setInterval(() => {
+            const cielo = document.querySelector('#cielo');
+            const trueno = document.querySelector('#sonido-trueno');
+      
+            cielo.setAttribute('color', '#ffffff');
+            setTimeout(() => {
+              cielo.setAttribute('color', '#000C3F');
+            }, 100); 
+      
+            setTimeout(() => {
+              trueno.components.sound.playSound();
+            }, 800); 
+          }, 7000); 
+        </script>
+      
+
+        <script>
+          AFRAME.registerComponent('generar-bosque', {
+            init: function () {
+              const bosque = document.querySelector('#bosque');
+              const cantidadDeArboles = 350;
+              const area = 250;
+              const radioClaro = 0;
+      
+              for (let i = 0; i < cantidadDeArboles; i++) {
+                const posX = (Math.random() - 0.5) * area * 2;
+                const posZ = (Math.random() - 0.5) * area * 2;
+                const posY = -5;
+      
+                const distanciaCentro = Math.sqrt(posX * posX + posZ * posZ);
+      
+                if (distanciaCentro > radioClaro) {
+                  const arbol = document.createElement('a-entity');
+                  arbol.setAttribute('gltf-model', '#arbol');
+                  arbol.setAttribute('scale', '1.5 1.5 1.5');
+                  arbol.setAttribute('position', `${posX} ${posY} ${posZ}`);
+      
+                  const rotY = Math.random() * 360;
+                  arbol.setAttribute('rotation', `0 ${rotY} 0`);
+      
+                  bosque.appendChild(arbol);
+                }
+              }
+            }
+          });
+        </script>
       
       </a-scene>
       
