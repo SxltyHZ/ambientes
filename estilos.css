@@ -107,6 +107,11 @@ a {
 	align-items: flex-start;
 	gap: 1.5rem;
 	padding: 1.5rem;
+	transition: background-color 0.3s ease;
+}
+
+.card-container:hover {
+	background-color: #f0f0f0;
 }
 
 .card-container img {

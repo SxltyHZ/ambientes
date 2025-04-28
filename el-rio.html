@@ -21,7 +21,7 @@
             <a-asset-item id="roca3" src="3dassets/roca3.glb"></a-asset-item>
             <a-asset-item id="roca4" src="3dassets/roca4.glb"></a-asset-item>
             <a-asset-item id="roca5" src="3dassets/roca5.glb"></a-asset-item>
-            <audio id="sonido-agua" src="sounds3/sonido-agua.mp3" preload="auto"></audio>
+            <audio id="sonido-agua" src="./sounds3/sonido-agua.mp3" preload="auto"></audio>
           </a-assets>
 
     
@@ -81,7 +81,7 @@
             });
           </script>
           
-          <a-entity sound="src: #sonido-agua; autoplay: true; loop: true; volume: 0.5"></a-entity>
+          <a-entity sound="src: #sonido-agua; autoplay: true; positional: false; loop: true; volume: 1"></a-entity>
           
           <a-entity generar-riberas></a-entity>
     
