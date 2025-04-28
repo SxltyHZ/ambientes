@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Río</title>
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+<script src="https://unpkg.com/@c-frame/aframe-particle-system-component@1.2.x/dist/aframe-particle-system-component.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.5.0/dist/aframe-extras.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aframe-simple-sun-sky@^1.2.2/simple-sun-sky.js"></script>
+
+</head>
+
+<body>
+    
+    <a-scene fog="type: exponential; color: #25746E; density: 0.01">
+
+        <a-assets>
+            <a-asset-item id="roca1" src="3dassets/roca1.glb"></a-asset-item>
+            <a-asset-item id="roca2" src="3dassets/roca2.glb"></a-asset-item>
+            <a-asset-item id="roca3" src="3dassets/roca3.glb"></a-asset-item>
+            <a-asset-item id="roca4" src="3dassets/roca4.glb"></a-asset-item>
+            <a-asset-item id="roca5" src="3dassets/roca5.glb"></a-asset-item>
+            <audio id="sonido-agua" src="sounds3/sonido-agua.mp3" preload="auto"></audio>
+          </a-assets>
+
+    
+        
+        <a-entity id="ocean" ocean="density: 100; width: 50; depth: 5000; speed: 5"
+        material="color: #0F3E2A; opacity: .1; metalness: 0; roughness: 1"
+        rotation="-90 0 0"></a-entity>
+
+        <a-plane 
+  position="0 0 0" 
+  rotation="-90 0 0" 
+  width="50" 
+  height="1000" 
+  color="#7BC8A4">
+</a-plane>
+    
+<a-simple-sun-sky sun-position="-.2 15 -30" light-color="#A2EAE4" dark-color="#A1E0DB" fog-color="#73C7C0"></a-simple-sun-sky>
+
+<a-entity light="type: ambient; color: #A2EAE4"></a-entity>
+<a-entity light="type: directional; color: #E6FFFD; intensity: 0.2" position="1 10 -130"></a-entity>
+
+        <a-entity position="0 2 10">
+          <a-camera></a-camera>
+        </a-entity>
+
+        <script>
+            AFRAME.registerComponent('generar-riberas', {
+              init: function () {
+                const escena = document.querySelector('a-scene');
+                const cantidadDeRocas = 3000; 
+                const modelos = ['#roca1', '#roca2', '#roca3', '#roca4', '#roca5'];
+          
+                for (let i = 0; i < cantidadDeRocas; i++) {
+                  const roca = document.createElement('a-entity');
+                  
+                  const modeloAleatorio = modelos[Math.floor(Math.random() * modelos.length)];
+                  roca.setAttribute('gltf-model', modeloAleatorio);
+          
+                  const lado = Math.random() > 0.5 ? 1 : -1;
+                  const offsetX = 10 + Math.random() * 5;
+                  const posX = lado * offsetX;
+          
+                  const posZ = (Math.random() - 0.5) * 2000;
+          
+                  let posY = -3;
+                  let escala = 2 + Math.random() * 3; 
+          
+                  roca.setAttribute('position', `${posX} ${posY} ${posZ}`);
+                  roca.setAttribute('scale', `${escala} ${escala} ${escala}`);
+          
+                  const rotY = Math.random() * 360;
+                  roca.setAttribute('rotation', `0 ${rotY} 0`);
+          
+                  escena.appendChild(roca);
+                }
+              }
+            });
+          </script>
+          
+          <a-entity sound="src: #sonido-agua; autoplay: true; loop: true; volume: 0.5"></a-entity>
+          
+          <a-entity generar-riberas></a-entity>
+    
+          <a-entity gltf-model="#roca1" 
+          position="0 -800 -1000" 
+          scale="600 600 600" 
+          rotation="0 45 0">
+</a-entity>
+
+<a-entity gltf-model="#roca2" 
+          position="0 -900 1000" 
+          scale="600 600 600" 
+          rotation="0 -30 0">
+</a-entity>
+
+    
+      </a-scene>
+</body>
+</html>
